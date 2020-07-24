@@ -1,5 +1,5 @@
 import React from 'react';
-import config from '../../config'
+import apiConfig from '../api-config'
 
 export default class SuccessStories extends React.Component {
 
@@ -12,7 +12,7 @@ export default class SuccessStories extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await fetch(`${config.API_ENDPOINT}/api/adopted`)
+    const res = await fetch(`${apiConfig.API_ENDPOINT}/api/adopted`)
     const json = await res.json();
 
     this.setState({
@@ -25,7 +25,7 @@ export default class SuccessStories extends React.Component {
     const adopted = this.state.adopted.map((a, b) => {
       return (
         <li key={b}>
-          <img src={a.imageURL} className='adopted-image' />
+          <img src={a.imageURL} alt='Adopted pet' className='adopted-image' />
           <p>{a.name}, adopted by {a.newOwner}</p>
         </li>
       );
