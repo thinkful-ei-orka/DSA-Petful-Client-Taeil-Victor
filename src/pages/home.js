@@ -1,11 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import './home.scss';
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+
 
 export default function Home() {
   return <>
     <main>
       <section className="hero-image">
-
+        <div className="image-container">
+          <div className="content"></div>
+        </div>
       </section>
       <section className="welcome-message">
         <div className="wrapper">
@@ -22,18 +28,18 @@ export default function Home() {
       </section>
       <section className="home-footer">
         <div className="wrapper">
-          <Link to="/success-stories">Success Stories</Link>
+          <Link to="/success-stories" className="btn">Success Stories</Link>
           <button>Log In</button>
         </div>
       </section>
       <section className="login-form">
         <div className="wrapper">
           <form>
-            <div className="form-field">
+            <div className="form-field inline">
               <label>Username</label>
               <input type="text"></input>
             </div>
-            <div className="form-field">
+            <div className="form-field inline">
               <label>Password</label>
               <input type="password"></input>
             </div>
