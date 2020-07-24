@@ -22,9 +22,9 @@ export default class SuccessStories extends React.Component {
 
   render() {
 
-    const adopted = this.state.adopted.map((a, b) => {
+    const adopted = this.state.adopted.map(a => {
       return (
-        <li key={b}>
+        <li key={a}>
           <img src={a.imageURL} alt='Adopted pet' className='adopted-image' />
           <p>{a.name}, adopted by {a.newOwner}</p>
         </li>
