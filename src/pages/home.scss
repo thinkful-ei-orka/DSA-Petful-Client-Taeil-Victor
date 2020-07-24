@@ -62,8 +62,14 @@
     min-width: 250px;
     margin: 0 auto;
   }
+  .error-message {
+    text-align: center;
+  }
   .error-message:empty {
     margin-top: 0;
+  }
+  &.has-error {
+    height: 281px;
   }
 }
 
@@ -86,6 +92,9 @@
     }
     button {
       min-width: unset;
+    }
+    &.has-error {
+      height: 160px;
     }
   }
 }
