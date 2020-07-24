@@ -1,5 +1,10 @@
 @import './../../variables.scss';
 
+.name-input {
+  width: 300px;
+  max-width: 100%;
+}
+
 .current-line {
   padding-left: 0;
   list-style-type: none;
@@ -14,4 +19,8 @@
   li:nth-of-type(even) {
     background: $light-gray;
   }
+}
+
+.pet-option {
+  text-align: center;
 }

@@ -30,7 +30,7 @@ export default class GetInLine extends React.Component {
       <p>To get in line, enter your name here. You'll be able to adopt a pet once you have reached the front of the line.</p>
       <form onSubmit={this.handleSubmit}>
         <label>Your Name</label>
-        <input type="text" value={this.state.yourName} onChange={this.handleChange}></input>
+        <input type="text" className="name-input" value={this.state.yourName} onChange={this.handleChange}></input>
         <button type="submit">Get in line</button>
         <div className="error-message">{this.state.errorMessage}</div>
       </form>

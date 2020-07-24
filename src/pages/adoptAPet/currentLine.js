@@ -1,4 +1,3 @@
-import './currentLine.scss';
 import React from 'react';
 
 export default class CurrentLine extends React.Component {

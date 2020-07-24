@@ -1,4 +1,5 @@
-import React from 'react'
+import './adoptAPet.scss';
+import React from 'react';
 
 import Header from '../../components/header';
 import GetInLine from './getInLine';
