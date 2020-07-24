@@ -55,6 +55,9 @@ code {
 /*------------------
   Typography
 ------------------*/
+h1 {
+  text-align: center;
+}
 p, li {
   line-height: 1.4em;
 }
@@ -84,6 +87,9 @@ button, .btn {
     border-radius: 9px;
   }
 }
+img {
+  max-width: 100%;
+}
 
 /*------------------
   Form
@@ -96,8 +102,16 @@ button, .btn {
 label {
   display: inline-block;
   margin-bottom: 5px;
+  // font-weight: bold;
 }
 input {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border: 1px solid $gray;
+  padding: 7px 9px;
+  border-radius: 4px;
+}
+.error-message {
+  color: $red;
+  margin-top: 15px;
 }
