@@ -1,0 +1,68 @@
+/*------------------
+  Variables
+------------------*/
+$teal: #26A69A; // primary color
+$red: #f44336;
+
+$button-radius: 8px;
+
+/*------------------
+  Global
+------------------*/
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/*------------------
+  Layout
+------------------*/
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/*------------------
+  Typography
+------------------*/
+
+
+/*------------------
+  Elements
+------------------*/
+a {
+  text-decoration: none;
+  color: black;
+}
+button, .btn {
+  display: inline-block;
+  -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 16px;
+    cursor: pointer;
+  border: 0;
+
+  padding: 8px 12px;
+  background: $teal;
+  color: #fff;
+  border-radius: $button-radius;
+}
+
+/*------------------
+  Form
+------------------*/
