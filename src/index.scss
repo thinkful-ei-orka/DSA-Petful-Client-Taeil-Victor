@@ -35,6 +35,9 @@ code {
   display: flex;
   flex-direction: column;
 }
+div[class^='col'], div[class*=' col'] {
+  margin-bottom: 40px;
+}
 @media (min-width: 600px) {
   .wrapper {
     padding: 0 20px;
@@ -42,12 +45,18 @@ code {
   .grid {
     margin: 0 -20px;
     flex-direction: row;
+    flex-wrap: wrap;
   }
   div[class^='col'], div[class*=' col'] {
     margin: 0 20px;
+    margin-bottom: 40px;
   }
   .col1-2 {
     flex: 1 0 40%;
+  }
+  .col1-3 {
+    flex: 1 0 25%;
+    width: 30%;
   }
 }
 
@@ -56,6 +65,9 @@ code {
   Typography
 ------------------*/
 h1 {
+  text-align: center;
+}
+h2 {
   text-align: center;
 }
 p, li {
@@ -76,15 +88,18 @@ button, .btn {
     font-size: 16px;
     cursor: pointer;
   border: 0;
-
   padding: 8px 14px;
   background: $teal;
   color: #fff;
   border-radius: 8px;
+
   &.large {
     padding: 9px 18px;
     font-size: 20px;
     border-radius: 9px;
+  }
+  &.red {
+    background: $red;
   }
 }
 img {

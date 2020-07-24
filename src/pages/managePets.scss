@@ -1,0 +1,25 @@
+.manage-pets {
+  h1 .btn {
+    vertical-align: top;
+    margin-top: 1px;
+    margin-left: 10px;
+  }
+}
+
+.cat-dog {
+  .name-remove {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  // change to this if we have the remove button
+  // .name-remove {
+  //   margin-top: 10px;
+  //   display: flex;
+  //   flex-direction: row;
+  //   justify-content: space-between;
+  // }
+  .name {
+    font-size: 20px;
+  }
+}
