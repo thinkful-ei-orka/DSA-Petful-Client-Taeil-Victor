@@ -1,0 +1,20 @@
+@import './../variables.scss';
+
+header {
+  padding: 15px 0;
+  border-bottom: 1px solid $gray;
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.logo {
+  color: $blue;
+  font-weight: bold;
+  font-size: 20px;
+}
+.logout {
+  color: $teal;
+  font-weight: bold;
+  align-self: center;
+}

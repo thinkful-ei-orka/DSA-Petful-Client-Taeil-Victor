@@ -1,4 +1,5 @@
-import React from 'react'
+import './currentLine.scss';
+import React from 'react';
 
 export default class CurrentLine extends React.Component {
   constructor(props) {

@@ -1,10 +1,4 @@
-/*------------------
-  Variables
-------------------*/
-$teal: #26A69A; // primary color
-$red: #f44336;
-
-$button-radius: 8px;
+@import './variables.scss';
 
 /*------------------
   Global
@@ -22,6 +16,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: $darker-gray;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -36,6 +31,26 @@ code {
   margin: 0 auto;
   padding: 0 15px;
 }
+.grid {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 600px) {
+  .wrapper {
+    padding: 0 20px;
+  }
+  .grid {
+    margin: 0 -20px;
+    flex-direction: row;
+  }
+  div[class^='col'], div[class*=' col'] {
+    margin: 0 20px;
+  }
+  .col1-2 {
+    flex: 1 0 40%;
+  }
+}
+
 
 /*------------------
   Typography
@@ -62,10 +77,11 @@ button, .btn {
   padding: 8px 14px;
   background: $teal;
   color: #fff;
-  border-radius: $button-radius;
+  border-radius: 8px;
   &.large {
-    padding: 10px 18px;
+    padding: 9px 18px;
     font-size: 20px;
+    border-radius: 9px;
   }
 }
 

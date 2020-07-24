@@ -1,4 +1,4 @@
-$gray: #E0E0E0;
+@import './../variables.scss';
 
 @mixin aspect-ratio($width, $height) {
   position: relative;
