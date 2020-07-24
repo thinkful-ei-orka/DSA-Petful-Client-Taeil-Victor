@@ -12,13 +12,19 @@ export default class SuccessStories extends React.Component {
   }
 
   async componentDidMount() {
-    const res = await fetch(`${apiConfig.API_ENDPOINT}/api/adopted`)
-    const json = await res.json();
-    console.log(json)
-
-    this.setState({
-      adopted: json
+    fetch(`${apiConfig.API_ENDPOINT}/api/adopted`)
+    .then(res => res.json())
+    .then(json => {
+      this.setState({adopted: json})
     })
+    .catch(e => console.log(e))
+    // console.log(res)
+    // const json = await res.json();
+    // console.log(json)
+
+    // this.setState({
+    //   adopted: json
+    // })
   }
 
   render() {
@@ -32,9 +38,9 @@ export default class SuccessStories extends React.Component {
     //   );
     // });
 
-    let adopted = this.state.adopted.first
+    let adopted = this.state.adopted
     console.log(adopted)
-    while (adopted !== null) {
+    while (adopted.first !== null) {
       return (
         <li key={adopted}>
           <img src={adopted.imageURL} alt='Adopted pet' className='adopted-image' />
