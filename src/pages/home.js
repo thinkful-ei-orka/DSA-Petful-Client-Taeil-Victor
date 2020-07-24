@@ -52,6 +52,11 @@ export default class Home extends React.Component {
   }
 
   render() {
+    let hasError = ''
+    if (this.state.errorMessage !== '') {
+      hasError = 'has-error';
+    }
+
     return <>
       <main>
         <section className="hero-image">
@@ -78,7 +83,7 @@ export default class Home extends React.Component {
             <button onClick={this.toggleLogin}>Log In</button>
           </div>
         </section>
-        <section className={`login-form ${this.state.loginClass}`}>
+        <section className={`login-form ${this.state.loginClass} ${hasError}`}>
           <div className="wrapper">
             <form onSubmit={(e) => this.handleSubmit(e)}>
               <div className="form-field inline">
