@@ -8,6 +8,10 @@ export default class CurrentLine extends React.Component {
     }
   }
 
+  getCurrentLine = () => {
+    fetch
+  }
+
   // if this.props.yourName is in the list, bold it.
 
   // every 5 seconds, remove a person and pet
