@@ -119,12 +119,19 @@ label {
   margin-bottom: 5px;
   // font-weight: bold;
 }
-input {
+input, textarea {
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   border: 1px solid $gray;
   padding: 7px 9px;
   border-radius: 4px;
+}
+input[type="radio"] {
+  display: inline-block;
+  & + label {
+    margin-left: 5px;
+    margin-right: 10px;
+  }
 }
 .error-message {
   color: $red;
