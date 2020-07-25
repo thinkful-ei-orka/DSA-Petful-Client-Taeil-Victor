@@ -13,8 +13,10 @@ export default class AdoptAPet extends React.Component {
     this.state = {
       pageState: 0,
       yourName: '',
-      pet1: {},
-      pet2: {},
+      currentLine: [],
+      yourPosition: null,
+      cat: {},
+      dog: {},
       selectedPet: {}
     }
 
@@ -25,6 +27,7 @@ export default class AdoptAPet extends React.Component {
     // 3: User adopted a pet
   }
 
+  // set your name, add it to the list, and start the 5 second timer
   handleNameSubmit = (name) => {
     let yourData = {user_name: name};
 
@@ -37,31 +40,101 @@ export default class AdoptAPet extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
+        console.log(json);
         this.setState({
           pageState: 1,
           yourName: name
         });
+
+        this.getCurrentLine();
+        this.checkLineTimer();
+      })
+      .catch(e => console.log(e));
+  }
+
+  // get the current line and find your position in the line
+  getCurrentLine = () => {
+    fetch(`${apiConfig.API_ENDPOINT}/api/people`)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        let yourPosition;
+        for (let i = 0; i < json.length; i++) {
+          if (json[i] === this.state.yourName) {
+            yourPosition = i + 1;
+          }
+        }
+        this.setState({
+          currentLine: json,
+          yourPosition: yourPosition
+        });
+      })
+      .catch(e => console.log(e));
+  }
+
+  // check the state of the line every 5 seconds
+  checkLineTimer = () => {
+    setTimeout(() => {
+      this.checkTheLine();
+      this.checkLineTimer(); // check in another 5 seconds
+    }, 5000)
+  }
+
+  // check your position in line and do the right thing
+  checkTheLine = () => {
+    console.log('checking');
+    // if your position is greater than 1, remove one person every 5 seconds
+    if (this.state.yourPosition > 1) {
+      fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+        method: 'DELETE',
+      })
+        .then(res => res.json())
+        .then(json => {
+          console.log(json);
+          this.getCurrentLine();
+        })
+        .catch(e => console.log(e));
+    }
+    // if you are first in line, get a cat and dog and show them for adoption
+    else if (this.state.yourPosition === 1 && this.state.pageState === 1) { // only run this once
+      fetch(`${apiConfig.API_ENDPOINT}/api/cats/`)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({cat: json})
+        return json;
       })
       .catch(e => console.log(e));
 
-  }
+      fetch(`${apiConfig.API_ENDPOINT}/api/dogs/`)
+        .then(res => res.json())
+        .then(json => {
+          this.setState({dog: json})
+          return json;
+        })
+        .catch(e => console.log(e));
 
-  detectFirst = () => {
-    // make a call to get the first cat and first dog
-    // fetch()
-    //   .then(() => {
-    //     this.setState({
-    //       pageState: 2,
-    //       pet1: {},
-    //       pet2: {}
-    //     })
-    //   })
+      this.setState({
+        pageState: 2,
+      });
+    } else if (this.state.pageState === 2 && this.state.people.length < 5) { // if you're first in line, add someone every 5 seconds until there are 5 people
+      let randomNames = ['Clarke Forster', 'Roshan Hutchings', 'Rianne Snow', 'Maximilian Rice', 'Lacey-May Calhoun', 'Axl Chadwick', 'Frederic Kennedy', 'Earl Morrison', 'Areeba Sadler', 'Madelyn Whitehead', 'Hania Mcdermott', 'Zishan Lister', 'Sameera Silva', 'Izaan Cooper', 'Dawson Stewart'];
 
-    this.setState({
-      pageState: 2,
-      pet1: {},
-      pet2: {}
-    })
+      let newPerson = { user_name: randomNames[Math.floor(Math.random() * randomNames.length)] }
+
+      fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(newPerson),
+      })
+        .then(res => res.json())
+        .then(json => {
+          console.log(json);
+          this.getCurrentLine();
+        })
+        .catch(e => console.log(e));
+    }
   }
 
   handleSelect = () => {
@@ -74,6 +147,17 @@ export default class AdoptAPet extends React.Component {
       pageState: 3,
       selectedPet: {}
     })
+  }
+
+  // Temporary function until everything's working.
+  triggerState = () => {
+    this.setState({
+      pageState: this.state.pageState + 1
+    });
+  }
+
+  componentDidMount() {
+    this.getCurrentLine();
   }
 
   render() {
@@ -97,7 +181,7 @@ export default class AdoptAPet extends React.Component {
         leftContent = <><p>You are in line to adopt a pet.</p><p>You will be able to adopt a pet once you have reached the front of the line.</p></>;
         break;
       case 2:
-        leftContent = <p>It's your turn! Would you like to adopt {this.state.pet1.name} or {this.state.pet2.name}?</p>;
+        leftContent = <p>It's your turn! Would you like to adopt {this.state.cat.name} or {this.state.dog.name}?</p>;
         break;
       case 3:
         leftContent = <><p>Thank you for adopting {this.state.selectedPet.name}!</p><div><img src={this.state.selectedPet.imageURL} alt={this.state.selectedPet.description}></img></div></>;
@@ -109,8 +193,8 @@ export default class AdoptAPet extends React.Component {
     // Choose a Pet
     if (this.state.pageState === 2) {
       chooseAPet = <div className="grid">
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.pet1}></PetOption></div>
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.pet2}></PetOption></div>
+        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat}></PetOption></div>
+        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog}></PetOption></div>
       </div>;
     }
 
@@ -122,9 +206,10 @@ export default class AdoptAPet extends React.Component {
           <div className="grid">
             <div className="col1-2">
               {leftContent}
+              <button onClick={this.triggerState} style={{marginTop: '70px'}}>trigger state change</button>
             </div>
             <div className="col1-2">
-              <CurrentLine yourName={this.state.yourName} detectFirst={this.detectFirst}></CurrentLine>
+              <CurrentLine currentLine={this.state.currentLine} yourName={this.state.yourName} detectFirst={this.detectFirst}></CurrentLine>
             </div>
           </div>
           {chooseAPet}

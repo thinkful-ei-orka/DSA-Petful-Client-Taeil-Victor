@@ -4,15 +4,15 @@ export default class PetOption extends React.Component {
   render() {
     return <>
       <div className="pet-option">
-        <h2>{this.props.name}</h2>
-        <img src={this.props.imageURL} alt={this.props.description}></img>
-        <p>{this.props.description}</p>
+        <h2>{this.props.pet.name}</h2>
+        <img src={this.props.pet.imageURL} alt={this.props.pet.description}></img>
+        <p>{this.props.pet.description}</p>
         <p>
-          {this.props.gender} {this.props.breed}<br />
-          {this.props.age} years old<br />
-          {this.props.story}
+          {this.props.pet.gender} {this.props.pet.breed}<br />
+          {this.props.pet.age} years old<br />
+          {this.props.pet.story}
         </p>
-        <button onClick={this.props.handleSelect}>Adopt {this.props.name}!</button>
+        <button onClick={this.props.handleSelect}>Adopt {this.props.pet.name}!</button>
       </div>
     </>;
   }
