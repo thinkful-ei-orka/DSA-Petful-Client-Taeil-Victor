@@ -1,5 +1,6 @@
 import './adoptAPet.scss';
 import React from 'react';
+import apiConfig from './../../api-config'
 
 import Header from '../../components/header';
 import GetInLine from './getInLine';
@@ -25,10 +26,24 @@ export default class AdoptAPet extends React.Component {
   }
 
   handleNameSubmit = (name) => {
-    this.setState({
-      pageState: 1,
-      yourName: name
+    let yourData = {user_name: name};
+
+    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(yourData),
     })
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          pageState: 1,
+          yourName: name
+        });
+      })
+      .catch(e => console.log(e));
+
   }
 
   detectFirst = () => {
