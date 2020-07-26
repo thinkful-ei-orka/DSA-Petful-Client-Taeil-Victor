@@ -18,9 +18,19 @@ export default class AddPet extends React.Component {
     }
   }
 
+  static defaultProps = {
+    history: {
+         push: () => { },
+    },
+};
+
   handleChange = (key, value) => {
     this.setState({[key]: value});
   }
+
+  handlePetAdded = () => {
+    this.props.history.push('/')
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +53,8 @@ export default class AddPet extends React.Component {
       imageURL: this.state.imageURL,
     }
 
-    fetch(`${apiConfig.API_ENDPOINT}/api/pets`, {
+    if (this.state.type === 'dog'){
+    fetch(`${apiConfig.API_ENDPOINT}/api/dogs`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -54,8 +65,26 @@ export default class AddPet extends React.Component {
       .then(json => {
         // look for a 2XX response and show the user that it was successful.
         console.log(json);
+        this.props.handlePetAdded();
       })
       .catch(e => console.log(e));
+    }
+    else if (this.state.type === 'cat'){
+      fetch(`${apiConfig.API_ENDPOINT}/api/cats`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(newPet),
+      })
+        .then(res => res.json())
+        .then(json => {
+          // look for a 2XX response and show the user that it was successful.
+          console.log(json);
+          this.props.handlePetAdded();
+        })
+        .catch(e => console.log(e));
+      }
   }
 
   render() {
@@ -105,7 +134,7 @@ export default class AddPet extends React.Component {
             </div>
           </div>
           <div className="button-container">
-            <button type="submit" className="large">Add Pet</button>
+            <button type="submit" onSubmit={this.handlePetAdded} className="large">Add Pet</button>
             <div className="error-message">{this.state.errorMessage}</div>
           </div>
         </form>
