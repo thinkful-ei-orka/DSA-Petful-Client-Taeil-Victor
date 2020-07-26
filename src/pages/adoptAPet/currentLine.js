@@ -6,7 +6,6 @@ export default class CurrentLine extends React.Component {
     this.props.currentLine.forEach((person, i) => {
       if (person === this.props.yourName) {
         people.push(<li key={i}><strong>{person}</strong></li>);
-        this.setState({yourPosition: i + 1})
       } else {
         people.push(<li key={i}>{person}</li>)
       }

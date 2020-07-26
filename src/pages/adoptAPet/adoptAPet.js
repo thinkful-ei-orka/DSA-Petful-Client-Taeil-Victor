@@ -68,6 +68,10 @@ export default class AdoptAPet extends React.Component {
           currentLine: json,
           yourPosition: yourPosition
         });
+
+        if (this.state.yourPosition === 1 && this.state.pageState === 1) {
+          this.getPets();
+        }
       })
       .catch(e => console.log(e));
   }
@@ -88,35 +92,12 @@ export default class AdoptAPet extends React.Component {
       fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
         method: 'DELETE',
       })
-        .then(res => res.json())
-        .then(json => {
-          console.log(json);
+        .then(res => {
+          console.log(res);
           this.getCurrentLine();
         })
         .catch(e => console.log(e));
-    }
-    // if you are first in line, get a cat and dog and show them for adoption
-    else if (this.state.yourPosition === 1 && this.state.pageState === 1) { // only run this once
-      fetch(`${apiConfig.API_ENDPOINT}/api/cats/`)
-      .then(res => res.json())
-      .then(json => {
-        this.setState({cat: json})
-        return json;
-      })
-      .catch(e => console.log(e));
-
-      fetch(`${apiConfig.API_ENDPOINT}/api/dogs/`)
-        .then(res => res.json())
-        .then(json => {
-          this.setState({dog: json})
-          return json;
-        })
-        .catch(e => console.log(e));
-
-      this.setState({
-        pageState: 2,
-      });
-    } else if (this.state.pageState === 2 && this.state.people.length < 5) { // if you're first in line, add someone every 5 seconds until there are 5 people
+    } else if (this.state.currentLine.length < 5) { // if you're first in line, add someone every 5 seconds until there are 5 people
       let randomNames = ['Clarke Forster', 'Roshan Hutchings', 'Rianne Snow', 'Maximilian Rice', 'Lacey-May Calhoun', 'Axl Chadwick', 'Frederic Kennedy', 'Earl Morrison', 'Areeba Sadler', 'Madelyn Whitehead', 'Hania Mcdermott', 'Zishan Lister', 'Sameera Silva', 'Izaan Cooper', 'Dawson Stewart'];
 
       let newPerson = { user_name: randomNames[Math.floor(Math.random() * randomNames.length)] }
@@ -137,6 +118,28 @@ export default class AdoptAPet extends React.Component {
     }
   }
 
+  getPets() {
+    fetch(`${apiConfig.API_ENDPOINT}/api/cats/`)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({cat: json})
+        return json;
+      })
+      .catch(e => console.log(e));
+
+      fetch(`${apiConfig.API_ENDPOINT}/api/dogs/`)
+        .then(res => res.json())
+        .then(json => {
+          this.setState({dog: json})
+          return json;
+        })
+        .catch(e => console.log(e));
+
+      this.setState({
+        pageState: 2,
+      });
+  }
+
   handleSelect = () => {
     // make a call to remove pet from adoption
     // remove name from people list
@@ -147,13 +150,6 @@ export default class AdoptAPet extends React.Component {
       pageState: 3,
       selectedPet: {}
     })
-  }
-
-  // Temporary function until everything's working.
-  triggerState = () => {
-    this.setState({
-      pageState: this.state.pageState + 1
-    });
   }
 
   componentDidMount() {
@@ -206,7 +202,6 @@ export default class AdoptAPet extends React.Component {
           <div className="grid">
             <div className="col1-2">
               {leftContent}
-              <button onClick={this.triggerState} style={{marginTop: '70px'}}>trigger state change</button>
             </div>
             <div className="col1-2">
               <CurrentLine currentLine={this.state.currentLine} yourName={this.state.yourName} detectFirst={this.detectFirst}></CurrentLine>
