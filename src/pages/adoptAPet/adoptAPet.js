@@ -40,7 +40,6 @@ export default class AdoptAPet extends React.Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         this.setState({
           pageState: 1,
           yourName: name
@@ -57,7 +56,6 @@ export default class AdoptAPet extends React.Component {
     fetch(`${apiConfig.API_ENDPOINT}/api/people`)
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         let yourPosition;
         for (let i = 0; i < json.length; i++) {
           if (json[i] === this.state.yourName) {
@@ -93,7 +91,6 @@ export default class AdoptAPet extends React.Component {
         method: 'DELETE',
       })
         .then(res => {
-          console.log(res);
           this.getCurrentLine();
         })
         .catch(e => console.log(e));
@@ -111,7 +108,6 @@ export default class AdoptAPet extends React.Component {
       })
         .then(res => res.json())
         .then(json => {
-          console.log(json);
           this.getCurrentLine();
         })
         .catch(e => console.log(e));
