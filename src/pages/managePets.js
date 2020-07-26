@@ -3,6 +3,7 @@ import './managePets.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import apiConfig from '../api-config'
+import Header from '../components/header';
 
 export default class ManagePets extends React.Component {
   constructor(props) {
@@ -64,6 +65,7 @@ export default class ManagePets extends React.Component {
     dogs.push(<div className="col1-3"></div>);
 
     return <>
+    <Header />
       <div className="wrapper manage-pets">
         <h1>Manage Pets <Link to="/add-pet" className="btn">Add Pet</Link></h1>
         <section>
