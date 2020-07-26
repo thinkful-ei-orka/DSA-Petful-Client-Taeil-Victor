@@ -12,7 +12,7 @@ export default class PetOption extends React.Component {
           {this.props.pet.age} years old<br />
           {this.props.pet.story}
         </p>
-        <button onClick={this.props.handleSelect}>Adopt {this.props.pet.name}!</button>
+        <button onClick={(e) => this.props.handleSelect(this.props.type)}>Adopt {this.props.pet.name}!</button>
       </div>
     </>;
   }

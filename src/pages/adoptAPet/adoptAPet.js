@@ -136,7 +136,8 @@ export default class AdoptAPet extends React.Component {
       });
   }
 
-  handleSelect = () => {
+  handleSelect = (type) => {
+    console.log(type);
     // make a call to remove pet from adoption
     // remove name from people list
     // replace the pet with another pet
@@ -144,7 +145,7 @@ export default class AdoptAPet extends React.Component {
 
     this.setState({
       pageState: 3,
-      selectedPet: {}
+      selectedPet: this.state[type]
     })
   }
 
@@ -185,8 +186,8 @@ export default class AdoptAPet extends React.Component {
     // Choose a Pet
     if (this.state.pageState === 2) {
       chooseAPet = <div className="grid">
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat}></PetOption></div>
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog}></PetOption></div>
+        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat} type="cat"></PetOption></div>
+        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog} type="dog"></PetOption></div>
       </div>;
     }
 
