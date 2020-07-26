@@ -10,7 +10,8 @@ export default class Home extends React.Component {
       loginClass: 'hidden',
       username: '',
       password: '',
-      errorMessage: ''
+      errorMessage: '',
+      loggedIn: false
     }
   }
 
@@ -45,6 +46,7 @@ export default class Home extends React.Component {
 
     if (this.state.username === 'petful' && this.state.password === 'ilovepets') {
       window.location.href = "/manage-pets";
+      this.setState({loggedIn: true})
     } else {
       this.setState({errorMessage: 'Your credentials are incorrect.'});
       window.scrollTo(0,document.body.scrollHeight);
