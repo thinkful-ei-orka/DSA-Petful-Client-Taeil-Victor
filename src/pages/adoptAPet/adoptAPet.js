@@ -80,6 +80,7 @@ export default class AdoptAPet extends React.Component {
       this.checkTheLine();
       this.checkLineTimer(); // check in another 5 seconds
     }, 5000)
+  
   }
 
   // check your position in line and do the right thing
@@ -137,6 +138,62 @@ export default class AdoptAPet extends React.Component {
   }
 
   handleSelect = (type) => {
+<<<<<<< HEAD
+=======
+    console.log(type);
+    // make a call to remove pet from adoption
+    if (type === 'dog') {
+      fetch(`${apiConfig.API_ENDPOINT}/api/dogs`, {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(),
+      })
+        .then(res => res.json())
+        .then(json => {
+          // look for a 2XX response and show the user that it was successful.
+          console.log(json);
+        })
+        .catch(e => console.log(e));
+    }
+    else if (type === 'cat') {
+      fetch(`${apiConfig.API_ENDPOINT}/api/cats`, {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(),
+      })
+        .then(res => res.json())
+        .then(json => {
+          // look for a 2XX response and show the user that it was successful.
+          console.log(json);
+        })
+        .catch(e => console.log(e));
+    }
+    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify()
+    })
+    .then(res => res.json())
+    .then(json => {
+      // look for a 2XX response and show the user that it was successful.
+      console.log(json);
+      this.setState({
+        pageState: 0
+      });
+
+      this.getCurrentLine();
+      this.checkLineTimer();
+    })
+    .catch(e => console.log(e));
+
+    // remove name from people list 
+>>>>>>> 640de797ddba205574d6b4689e528a4b89470d50
     // replace the pet with another pet
     // This isn't done yet.
 

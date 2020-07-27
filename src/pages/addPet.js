@@ -29,7 +29,7 @@ export default class AddPet extends React.Component {
   }
 
   handlePetAdded = () => {
-    this.props.history.push('/')
+    this.props.history.push('/manage-pets')
   };
 
   handleSubmit = (e) => {
@@ -65,7 +65,7 @@ export default class AddPet extends React.Component {
       .then(json => {
         // look for a 2XX response and show the user that it was successful.
         console.log(json);
-        this.props.handlePetAdded();
+        this.handlePetAdded();
       })
       .catch(e => console.log(e));
     }
@@ -81,7 +81,7 @@ export default class AddPet extends React.Component {
         .then(json => {
           // look for a 2XX response and show the user that it was successful.
           console.log(json);
-          this.props.handlePetAdded();
+          this.handlePetAdded();
         })
         .catch(e => console.log(e));
       }
