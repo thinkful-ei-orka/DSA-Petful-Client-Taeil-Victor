@@ -80,7 +80,7 @@ export default class AdoptAPet extends React.Component {
       this.checkTheLine();
       this.checkLineTimer(); // check in another 5 seconds
     }, 5000)
-  
+
   }
 
   // check your position in line and do the right thing
@@ -138,9 +138,6 @@ export default class AdoptAPet extends React.Component {
   }
 
   handleSelect = (type) => {
-<<<<<<< HEAD
-=======
-    console.log(type);
     // make a call to remove pet from adoption
     if (type === 'dog') {
       fetch(`${apiConfig.API_ENDPOINT}/api/dogs`, {
@@ -152,8 +149,7 @@ export default class AdoptAPet extends React.Component {
       })
         .then(res => res.json())
         .then(json => {
-          // look for a 2XX response and show the user that it was successful.
-          console.log(json);
+          // console.log(json);
         })
         .catch(e => console.log(e));
     }
@@ -167,8 +163,7 @@ export default class AdoptAPet extends React.Component {
       })
         .then(res => res.json())
         .then(json => {
-          // look for a 2XX response and show the user that it was successful.
-          console.log(json);
+          // console.log(json);
         })
         .catch(e => console.log(e));
     }
@@ -179,41 +174,11 @@ export default class AdoptAPet extends React.Component {
       },
       body: JSON.stringify()
     })
-    .then(res => res.json())
-    .then(json => {
-      // look for a 2XX response and show the user that it was successful.
-      console.log(json);
-      this.setState({
-        pageState: 0
-      });
-
+    .then(res => {
       this.getCurrentLine();
       this.checkLineTimer();
     })
     .catch(e => console.log(e));
-
-    // remove name from people list 
->>>>>>> 640de797ddba205574d6b4689e528a4b89470d50
-    // replace the pet with another pet
-    // This isn't done yet.
-
-    // remove a pet from the list
-    fetch(`${apiConfig.API_ENDPOINT}/api/${type}s`, {
-      method: 'DELETE',
-    })
-      .then(res => {
-        console.log('removed pet', res)
-      })
-      .catch(e => console.log(e));
-
-    // remove yourself from the list
-    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
-      method: 'DELETE',
-    })
-      .then(res => {
-        this.getCurrentLine();
-      })
-      .catch(e => console.log(e));
 
     this.setState({
       pageState: 3,
