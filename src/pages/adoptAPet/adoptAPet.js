@@ -137,11 +137,26 @@ export default class AdoptAPet extends React.Component {
   }
 
   handleSelect = (type) => {
-    console.log(type);
-    // make a call to remove pet from adoption
-    // remove name from people list
     // replace the pet with another pet
-    // add adopted pet and your name to a list of adoptions (success story)
+    // This isn't done yet.
+
+    // remove a pet from the list
+    fetch(`${apiConfig.API_ENDPOINT}/api/${type}s`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        console.log('removed pet', res)
+      })
+      .catch(e => console.log(e));
+
+    // remove yourself from the list
+    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+      method: 'DELETE',
+    })
+      .then(res => {
+        this.getCurrentLine();
+      })
+      .catch(e => console.log(e));
 
     this.setState({
       pageState: 3,

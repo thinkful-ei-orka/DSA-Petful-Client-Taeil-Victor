@@ -34,9 +34,9 @@ export default class ManagePets extends React.Component {
     let cats = [];
     let dogs = [];
 
-    this.state.cats.forEach((cat) => {
+    this.state.cats.forEach((cat, i) => {
       cats.push(
-        <div className="col1-3 cat-dog">
+        <div className="col1-3 cat-dog" key={i}>
           <img src={cat.imageURL} alt={cat.description}></img>
           <div className="name-remove">
             <div className="name">{cat.name}</div>
@@ -49,9 +49,9 @@ export default class ManagePets extends React.Component {
     cats.push(<div className="col1-3"></div>);
     cats.push(<div className="col1-3"></div>);
 
-    this.state.dogs.forEach((dog) => {
+    this.state.dogs.forEach((dog, i) => {
       dogs.push(
-        <div className="col1-3 cat-dog">
+        <div className="col1-3 cat-dog" key={i}>
           <img src={dog.imageURL} alt={dog.description}></img>
           <div className="name-remove">
             <div className="name">{dog.name}</div>
