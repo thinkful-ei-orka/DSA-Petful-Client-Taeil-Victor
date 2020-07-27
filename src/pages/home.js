@@ -69,7 +69,7 @@ export default class Home extends React.Component {
         <section className="welcome-message">
           <div className="wrapper">
             <h1>Welcome to Petful!</h1>
-            <p>Quis Lorem et irure quis irure ad. Mollit labore laboris mollit et cupidatat aliqua est enim id est. Sint anim dolore culpa anim incididunt id laboris cupidatat id quis. Dolor exercitation dolore mollit fugiat. Culpa aliquip cillum in in.</p>
+            {/* <p>Quis Lorem et irure quis irure ad. Mollit labore laboris mollit et cupidatat aliqua est enim id est. Sint anim dolore culpa anim incididunt id laboris cupidatat id quis. Dolor exercitation dolore mollit fugiat. Culpa aliquip cillum in in.</p> */}
             <ul>
               <li>There are the only two types of animals in the shelter, cats and dogs.</li>
               <li>The adoption process works strictly on a first in-first out basis.</li>
