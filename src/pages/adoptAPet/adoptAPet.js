@@ -130,6 +130,7 @@ export default class AdoptAPet extends React.Component {
   }
 
   removePetAndOwner() {
+    // note: reomving a pet also removes the owner
     let petOption = Math.floor(Math.random()*2);
     if (petOption === 0) {
       console.log('removing dog')
@@ -142,7 +143,8 @@ export default class AdoptAPet extends React.Component {
       })
         .then(res => {
           if (res.ok) {
-            this.removeOwner();
+            this.getCurrentLine();
+            this.getPets();
           }
         })
         // .then(json => {
@@ -161,7 +163,8 @@ export default class AdoptAPet extends React.Component {
       })
         .then(res => {
           if (res.ok) {
-            this.removeOwner();
+            this.getCurrentLine();
+            this.getPets();
           }
         })
         // .then(json => {
@@ -172,21 +175,21 @@ export default class AdoptAPet extends React.Component {
     }
   }
 
-  removeOwner() {
-    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify()
-    })
-    .then(res => {
-      // console.log(res);
-      this.getCurrentLine();
-      this.getPets();
-    })
-    .catch(e => console.log(e));
-  }
+  // removeOwner() {
+  //   fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify()
+  //   })
+  //   .then(res => {
+  //     // console.log(res);
+  //     this.getCurrentLine();
+  //     this.getPets();
+  //   })
+  //   .catch(e => console.log(e));
+  // }
 
   handleSelect = (type) => {
     // make a call to remove pet from adoption
@@ -198,9 +201,10 @@ export default class AdoptAPet extends React.Component {
         },
         body: JSON.stringify(),
       })
-        .then(res => res.json())
-        .then(json => {
-          // console.log(json);
+        .then(res => {
+          if (res.ok) {
+            this.getCurrentLine();
+          }
         })
         .catch(e => console.log(e));
     }
@@ -212,25 +216,27 @@ export default class AdoptAPet extends React.Component {
         },
         body: JSON.stringify(),
       })
-        .then(res => res.json())
-        .then(json => {
-          // console.log(json);
-        })
+      .then(res => {
+        if (res.ok) {
+          this.getCurrentLine();
+        }
+      })
         .catch(e => console.log(e));
     }
-    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify()
-    })
-    .then(res => {
-      this.getCurrentLine();
-      this.getPets();
-      this.checkLineTimer();
-    })
-    .catch(e => console.log(e));
+    // note: removing a cat or dog also removes a person
+    // fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'content-type': 'application/json',
+    //   },
+    //   body: JSON.stringify()
+    // })
+    // .then(res => {
+    //   this.getCurrentLine();
+    //   this.getPets();
+    //   this.checkLineTimer();
+    // })
+    // .catch(e => console.log(e));
 
     this.setState({
       pageState: 3,
@@ -246,12 +252,18 @@ export default class AdoptAPet extends React.Component {
   render() {
     let title = '';
     let leftContent;
+    let petSelection;
 
     // Page Title
     if (this.state.pageState === 3) {
       title = "Thank You!";
     } else {
       title = "Adopt a Pet";
+      petSelection =
+        <div className="grid">
+          <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat} type="cat" pageState={this.state.pageState}></PetOption></div>
+          <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog} type="dog" pageState={this.state.pageState}></PetOption></div>
+        </div>;
     }
 
     // Left Content
@@ -285,10 +297,7 @@ export default class AdoptAPet extends React.Component {
               <CurrentLine currentLine={this.state.currentLine} yourName={this.state.yourName} detectFirst={this.detectFirst}></CurrentLine>
             </div>
           </div>
-          <div className="grid">
-            <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat} type="cat" pageState={this.state.pageState}></PetOption></div>
-            <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog} type="dog" pageState={this.state.pageState}></PetOption></div>
-          </div>
+          {petSelection}
         </div>
 
       </main>
