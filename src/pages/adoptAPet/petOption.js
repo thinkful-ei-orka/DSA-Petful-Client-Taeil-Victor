@@ -2,6 +2,13 @@ import React from 'react';
 
 export default class PetOption extends React.Component {
   render() {
+    let button;
+
+    if (this.props.pageState === 2) {
+      console.log('show button');
+      button = <button onClick={(e) => this.props.handleSelect(this.props.type)}>Adopt {this.props.pet.name}!</button>;
+    }
+
     return <>
       <div className="pet-option">
         <h2>{this.props.pet.name}</h2>
@@ -12,7 +19,7 @@ export default class PetOption extends React.Component {
           {this.props.pet.age} years old<br />
           {this.props.pet.story}
         </p>
-        <button onClick={(e) => this.props.handleSelect(this.props.type)}>Adopt {this.props.pet.name}!</button>
+        {button}
       </div>
     </>;
   }

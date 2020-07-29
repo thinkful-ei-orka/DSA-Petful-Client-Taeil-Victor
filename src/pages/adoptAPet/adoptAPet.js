@@ -46,6 +46,7 @@ export default class AdoptAPet extends React.Component {
         });
 
         this.getCurrentLine();
+        this.getPets();
         this.checkLineTimer();
       })
       .catch(e => console.log(e));
@@ -66,10 +67,30 @@ export default class AdoptAPet extends React.Component {
           currentLine: json,
           yourPosition: yourPosition
         });
-
+        // if first in line, allow adoption and transition to next state
         if (this.state.yourPosition === 1 && this.state.pageState === 1) {
-          this.getPets();
+          this.setState({
+            pageState: 2,
+          });
         }
+      })
+      .catch(e => console.log(e));
+  }
+
+  getPets() {
+    fetch(`${apiConfig.API_ENDPOINT}/api/cats/`)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({cat: json})
+        return json;
+      })
+      .catch(e => console.log(e));
+
+    fetch(`${apiConfig.API_ENDPOINT}/api/dogs/`)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({dog: json})
+        return json;
       })
       .catch(e => console.log(e));
   }
@@ -80,7 +101,6 @@ export default class AdoptAPet extends React.Component {
       this.checkTheLine();
       this.checkLineTimer(); // check in another 5 seconds
     }, 5000)
-
   }
 
   // check your position in line and do the right thing
@@ -88,13 +108,7 @@ export default class AdoptAPet extends React.Component {
     console.log('checking');
     // if your position is greater than 1, remove one person every 5 seconds
     if (this.state.yourPosition > 1) {
-      fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
-        method: 'DELETE',
-      })
-        .then(res => {
-          this.getCurrentLine();
-        })
-        .catch(e => console.log(e));
+      this.removePetAndOwner();
     } else if (this.state.currentLine.length < 5) { // if you're first in line, add someone every 5 seconds until there are 5 people
       let randomNames = ['Clarke Forster', 'Roshan Hutchings', 'Rianne Snow', 'Maximilian Rice', 'Lacey-May Calhoun', 'Axl Chadwick', 'Frederic Kennedy', 'Earl Morrison', 'Areeba Sadler', 'Madelyn Whitehead', 'Hania Mcdermott', 'Zishan Lister', 'Sameera Silva', 'Izaan Cooper', 'Dawson Stewart'];
 
@@ -115,26 +129,63 @@ export default class AdoptAPet extends React.Component {
     }
   }
 
-  getPets() {
-    fetch(`${apiConfig.API_ENDPOINT}/api/cats/`)
-      .then(res => res.json())
-      .then(json => {
-        this.setState({cat: json})
-        return json;
+  removePetAndOwner() {
+    let petOption = Math.floor(Math.random()*2);
+    if (petOption === 0) {
+      console.log('removing dog')
+      fetch(`${apiConfig.API_ENDPOINT}/api/dogs`, {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(),
       })
-      .catch(e => console.log(e));
-
-      fetch(`${apiConfig.API_ENDPOINT}/api/dogs/`)
-        .then(res => res.json())
-        .then(json => {
-          this.setState({dog: json})
-          return json;
+        .then(res => {
+          if (res.ok) {
+            this.removeOwner();
+          }
         })
+        // .then(json => {
+        //   console.log(json);
+        //   this.removeOwner();
+        // })
         .catch(e => console.log(e));
+    } else {
+      console.log('removing cat');
+      fetch(`${apiConfig.API_ENDPOINT}/api/cats`, {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(),
+      })
+        .then(res => {
+          if (res.ok) {
+            this.removeOwner();
+          }
+        })
+        // .then(json => {
+        //   console.log(json);
+        //   this.removeOwner();
+        // })
+        .catch(e => console.log(e));
+    }
+  }
 
-      this.setState({
-        pageState: 2,
-      });
+  removeOwner() {
+    fetch(`${apiConfig.API_ENDPOINT}/api/people`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify()
+    })
+    .then(res => {
+      // console.log(res);
+      this.getCurrentLine();
+      this.getPets();
+    })
+    .catch(e => console.log(e));
   }
 
   handleSelect = (type) => {
@@ -176,6 +227,7 @@ export default class AdoptAPet extends React.Component {
     })
     .then(res => {
       this.getCurrentLine();
+      this.getPets();
       this.checkLineTimer();
     })
     .catch(e => console.log(e));
@@ -188,12 +240,12 @@ export default class AdoptAPet extends React.Component {
 
   componentDidMount() {
     this.getCurrentLine();
+    this.getPets();
   }
 
   render() {
     let title = '';
     let leftContent;
-    let chooseAPet;
 
     // Page Title
     if (this.state.pageState === 3) {
@@ -220,14 +272,6 @@ export default class AdoptAPet extends React.Component {
         leftContent = <p>Welcome! You must enter the line to adopt a pet. We are not accepting anyone at the moment. Please come back later!</p>
     };
 
-    // Choose a Pet
-    if (this.state.pageState === 2) {
-      chooseAPet = <div className="grid">
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat} type="cat"></PetOption></div>
-        <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog} type="dog"></PetOption></div>
-      </div>;
-    }
-
     return <>
       <Header></Header>
       <main>
@@ -241,7 +285,10 @@ export default class AdoptAPet extends React.Component {
               <CurrentLine currentLine={this.state.currentLine} yourName={this.state.yourName} detectFirst={this.detectFirst}></CurrentLine>
             </div>
           </div>
-          {chooseAPet}
+          <div className="grid">
+            <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.cat} type="cat" pageState={this.state.pageState}></PetOption></div>
+            <div className="col1-2"><PetOption handleSelect={this.handleSelect} pet={this.state.dog} type="dog" pageState={this.state.pageState}></PetOption></div>
+          </div>
         </div>
 
       </main>
